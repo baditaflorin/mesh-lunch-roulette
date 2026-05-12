@@ -16,7 +16,7 @@ Teams naturally think in weeks: "who am I getting coffee with this week?"
 Use **ISO week strings** as the key into the `Y.Map<weekISO, Pairing>` history.
 
 ```ts
-isoWeek(new Date()) // → "2026-W19"
+isoWeek(new Date()); // → "2026-W19"
 ```
 
 The format is `YYYY-Www` where `ww` is zero-padded. This is the ISO 8601
@@ -35,7 +35,7 @@ the app gets `currentWeek` from `isoWeek(new Date())` if `state` is empty.
 - **Pros.**
   - Human-readable. "2026-W19" tells you exactly when it was.
   - Stable across time zones up to an 8-hour window — ISO weeks roll over
-    on Monday 00:00 *local* time, but our `isoWeek()` uses UTC, so the
+    on Monday 00:00 _local_ time, but our `isoWeek()` uses UTC, so the
     "week" boundary is the same for everyone in the team within UTC offsets
     of ±12h.
   - Idempotent: a team in two time zones who both compute the week label
