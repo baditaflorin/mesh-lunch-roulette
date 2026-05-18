@@ -1,6 +1,9 @@
 export const appConfig = {
   appName: "mesh-lunch-roulette",
   storagePrefix: "mesh-lunch-roulette",
+  description:
+    "History-aware weekly coffee-chat pairing for teams. No two people repeat until everyone has met.",
+  accentHex: "#4dcb8d",
   version: __APP_VERSION__,
   commit: __GIT_COMMIT__,
   repositoryUrl: "https://github.com/baditaflorin/mesh-lunch-roulette",
