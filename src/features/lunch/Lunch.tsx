@@ -107,7 +107,6 @@ export function Lunch({ roomId, lookbackWeeks, myName }: Props) {
       for (const k of keys) mesh!.history.delete(k);
     });
   };
-  // Expose clearHistory through window so SettingsDrawer can call it. (Avoid prop chains.)
   (window as unknown as { __lunchClearHistory?: () => void }).__lunchClearHistory = clearHistory;
 
   // Build past-weeks summary
