@@ -1,6 +1,6 @@
 {
   "name": "mesh-lunch-roulette",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Peer-to-peer mesh: weekly coffee-chat pairing for teams. History-aware so no two people repeat until everyone has met.",
   "type": "module",
   "private": false,
@@ -47,6 +47,7 @@
     "@playwright/test": "^1.50.0",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.0",
     "jsdom": "^26.0.0"
   },
   "engines": {
