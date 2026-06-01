@@ -58,6 +58,10 @@ export function Lunch({ roomId, lookbackWeeks, myName }: Props) {
           then press "Pair this week." The algorithm prefers people who have never met, falls back
           to longest-time-since for the rest, and handles odd team sizes with a wildcard triple.
         </p>
+        <p className="lunch-arm-hint">
+          The roster and pairings sync to every device in the same room. Try it: open this page in
+          two tabs and watch both stay in step.
+        </p>
         <button type="button" className="lunch-arm-button" onClick={() => setArmed(true)}>
           Open the team room
         </button>
@@ -156,10 +160,12 @@ export function Lunch({ roomId, lookbackWeeks, myName }: Props) {
               Add
             </button>
           </div>
-          {roster.length >= 2 && (
+          {roster.length >= 2 ? (
             <button type="button" className="lunch-pair-button" onClick={() => pair(false)}>
               Pair this week ({currentWeek})
             </button>
+          ) : (
+            <p className="lunch-empty">Add at least two names to pair this week.</p>
           )}
         </section>
       )}

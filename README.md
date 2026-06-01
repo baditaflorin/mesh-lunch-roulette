@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 [![No backend](https://img.shields.io/badge/backend-none-0f1418?style=flat-square)](docs/adr/0001-deployment-mode.md)
 
-> History-aware weekly coffee-chat pairing for teams. No two people repeat until everyone has met.
+> History-aware weekly coffee-chat pairing for teams. Strongly favors people who've never met, so repeats stay rare until the team has mixed.
 
 **Live:** https://baditaflorin.github.io/mesh-lunch-roulette/
 
