@@ -2,6 +2,7 @@ import { createMeshConfig } from "@baditaflorin/mesh-common";
 
 export const appConfig = createMeshConfig({
   appName: "mesh-lunch-roulette",
+  breadcrumbs: false,
   displayName: "Lunch Table",
   visualProfile: "play",
   shellLayout: "inset",
