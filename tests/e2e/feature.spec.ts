@@ -10,25 +10,21 @@ const storagePrefix = pkg.name;
 /**
  * Load-bearing cross-peer assertion for the advertised core action:
  *
- *   "Add your team's names to the shared roster. Press 'Pair this week' — the
- *    pairing is deterministic given the same inputs, and any peer's view is
- *    authoritative."
+ *   "Add your team's names to the shared roster. Choose this week's table —
+ *    the pairing is deterministic given the same inputs, and any peer's view
+ *    is authoritative."
  *
  * The pairing RESULT is computed once (FNV-1a-seeded deterministic greedy in
  * pairing.ts) and written into a shared `Y.Map("history")` keyed by the ISO
  * week, alongside `Y.Array("roster")`. Both peers READ the same stored result,
- * so the falsifiable claim is: when peer A adds the roster and presses "Pair
- * this week", peer B sees the *identical* pairs.
+ * so the falsifiable claim is: when peer A adds the roster and chooses the
+ * table, peer B sees the *identical* pairs.
  *
  * Peer A drives the action; peer B asserts the result. The test is wired to
  * FAIL if the roster or the pairing result never crosses the mesh (e.g. the
  * write goes to React state, or A and B read/write different Y keys), or if the
  * two peers disagree on the pairing.
  */
-
-async function openRoom(page: Page): Promise<void> {
-  await page.getByRole("button", { name: /Open the team room/i }).click();
-}
 
 async function addName(page: Page, name: string): Promise<void> {
   const input = page.getByPlaceholder("Name");
@@ -51,11 +47,15 @@ async function readPairs(page: Page): Promise<string[]> {
     .sort();
 }
 
-test("peer A's deterministic pairing is identical on peer B", async ({ browser, baseURL }) => {
+test("peer A's shared lunch decision is identical on peer B", async ({ browser, baseURL }) => {
   const { a, b, cleanup } = await openTwoPeers(browser, baseURL ?? "", { storagePrefix });
   try {
-    await openRoom(a);
-    await openRoom(b);
+    // The decision board is the entry view: both peers can see the actual
+    // shared roster and the decisive action without first passing a fake
+    // launch screen.
+    await expect(a.getByTestId("shared-roster")).toBeVisible();
+    await expect(b.getByTestId("shared-roster")).toBeVisible();
+    await expect(a.getByRole("button", { name: /choose this week/i })).toBeDisabled();
 
     // Peer A populates the shared roster (4 names → 2 clean pairs).
     const roster = ["Ada", "Babbage", "Curie", "Darwin"];
@@ -67,7 +67,7 @@ test("peer A's deterministic pairing is identical on peer B", async ({ browser, 
     }
 
     // Drive the advertised core action on peer A.
-    await a.getByRole("button", { name: /Pair this week/i }).click();
+    await a.getByRole("button", { name: /Choose this week/i }).click();
 
     // Peer A computed + stored the pairing; assert A renders some pairs.
     await expect(a.locator(".lunch-pairs ul li").first()).toBeVisible();

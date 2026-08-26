@@ -1,3 +1,5 @@
+import { MeshButton, MeshNameInput } from "@baditaflorin/mesh-common";
+
 type Props = {
   lookback: number;
   onLookbackChange: (next: number) => void;
@@ -12,18 +14,19 @@ export function SettingsExtras({ lookback, onLookbackChange, myName, onMyNameCha
   };
 
   return (
-    <>
-      <label>
-        <span>Your name (used to highlight your pair)</span>
-        <input
-          value={myName}
-          onChange={(e) => onMyNameChange(e.target.value)}
-          placeholder="(optional)"
-        />
-      </label>
+    <section className="lunch-settings" aria-label="Lunch preferences">
+      <MeshNameInput
+        value={myName}
+        onChange={onMyNameChange}
+        label="Your name"
+        placeholder="Used to highlight your table"
+        hint="This stays on this device; it is not added to the shared roster automatically."
+        showCounter
+        maxLength={48}
+      />
 
       <label>
-        <span>Lookback weeks (K = {lookback})</span>
+        <span>Freshness window — {lookback} weeks</span>
         <input
           type="range"
           min={1}
@@ -35,12 +38,12 @@ export function SettingsExtras({ lookback, onLookbackChange, myName, onMyNameCha
       </label>
 
       <p className="mesh-settings-help">
-        A higher K spreads pairings across more weeks before allowing repeats. Default 4.
+        A longer window keeps recent tables apart before allowing a repeat. Default: 4 weeks.
       </p>
 
-      <button type="button" className="settings-danger" onClick={clearHistory}>
+      <MeshButton type="button" variant="danger" size="sm" onClick={clearHistory}>
         Clear pairing history
-      </button>
-    </>
+      </MeshButton>
+    </section>
   );
 }

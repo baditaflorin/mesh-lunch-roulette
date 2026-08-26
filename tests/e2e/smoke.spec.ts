@@ -46,23 +46,20 @@ async function openSettings(page: Page): Promise<Locator> {
 
 /**
  * Generic smoke test — works for any mesh-* app without modification.
- * Asserts: page loads, settings drawer opens, self-ref bar visible, no
- * console errors.
+ * Asserts: the shared decision board loads, core controls remain reachable,
+ * settings drawer opens, and the page emits no application console errors.
  */
 
-test("page loads with version + source + tip visible", async ({ page }) => {
+test("page loads with the shared roster and decision control visible", async ({ page }) => {
   const c = captureConsoleErrors(page);
   await page.goto("./");
   await closeInitiallyOpenSettings(page);
 
-  // Self-ref bar contains a "source" link, a "tip" link, and a version stamp.
-  await expect(page.getByRole("link", { name: /source/i }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /tip/i }).first()).toBeVisible();
-  // Version stamp lives in the self-ref bar — mesh-common's class is
-  // `.mesh-self-ref`, legacy apps use `.self-ref`. Both render a `vN.N.N`
-  // string in that footer.
-  const versionLocator = page.locator(".mesh-self-ref, .self-ref").getByText(/^v\d/);
-  await expect(versionLocator.first()).toBeVisible();
+  await expect(page.getByRole("main", { name: "Lunch Table" })).toBeVisible();
+  await expect(page.getByTestId("shared-roster")).toBeVisible();
+  await expect(page.getByRole("button", { name: /choose this week/i })).toBeVisible();
+  await expect(page.getByLabel(/invite people to lunch table/i)).toBeVisible();
+  await expect(page.getByLabel("Open settings")).toBeVisible();
 
   // Allow a moment for async TURN fetch / WebRTC handshake; benign warnings
   // about TURN unreachable are OK, but real errors are not.
